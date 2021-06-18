@@ -1,4 +1,7 @@
 <?php
+
+use MediaWiki\MediaWikiServices;
+
 /**
  * This file contains the classes used by NumberedHeadings Mediawiki
  * extension.
@@ -19,15 +22,19 @@ class NumberedHeadings
     /**
      * Function call to toggle autonumbering on hook
      * ParserBeforeInternalParse.
+     *
+     * @param Parser     $parser
+     * @param string     $text       Partially parsed text
+     * @param StripState $stripState Parser's internal StripState object
      */
     public static function onInternalParseBeforeLinks(
-        &$parser,
+        Parser $parser,
         &$text,
-        &$strip_state
+        StripState $strip_state
     ) {
-        if (MediaWiki\MediaWikiServices::getInstance()->getMagicWordFactory()->get('MAG_NUMBEREDHEADINGS')->matchAndRemove($text)) {
+        if (MediaWikiServices::getInstance()->getMagicWordFactory()->get('MAG_NUMBEREDHEADINGS')->matchAndRemove($text)) {
             $parser->mOptions->setNumberHeadings(true);
-        } elseif (MediaWiki\MediaWikiServices::getInstance()->getMagicWordFactory()->get('MAG_NONUMBEREDHEADINGS')->matchAndRemove($text)) {
+        } elseif (MediaWikiServices::getInstance()->getMagicWordFactory()->get('MAG_NONUMBEREDHEADINGS')->matchAndRemove($text)) {
             $parser->mOptions->setNumberHeadings(false);
         }
         return true;
