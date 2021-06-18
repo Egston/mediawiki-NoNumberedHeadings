@@ -15,3 +15,9 @@ Add `__NUMBEREDHEADINGS__` or `__NONUMBEREDHEADINGS__` to any article to toggle 
 Copy files into `$IP/extensions/NumberedHeadings` (where `$IP` is your MediaWiki installation root) and add the following line towards the end of your $IP/LocalSettings.php:
 
 `wfLoadExtension('NumberedHeadings');`
+
+## Configuration
+
+If you want to use the `__NONUMBEREDHEADINGS__` to hide numbers also in the TOC add the folowing to your $IP/LocalSettings.php:
+
+`$wgNumberedHeadingsAlsoHideNumbersInToc = true;`

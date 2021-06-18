@@ -22,5 +22,14 @@
 	"Hooks": {
 		"InternalParseBeforeLinks": ["NumberedHeadings::onInternalParseBeforeLinks"]
 	},
-	"manifest_version": 1
+	"config": {
+		"NumberedHeadingsAlsoHideNumbersInToc": {
+			"value": false,
+			"description": "When hiding numbers in headings also hide numbers in the TOC"
+		}
+	},
+	"ConfigRegistry": {
+		"NumberedHeadings": "GlobalVarConfig::newInstance"
+	},
+	"manifest_version": 2
 }

@@ -36,6 +36,12 @@ class NumberedHeadings
             $parser->mOptions->setNumberHeadings(true);
         } elseif (MediaWikiServices::getInstance()->getMagicWordFactory()->get('MAG_NONUMBEREDHEADINGS')->matchAndRemove($text)) {
             $parser->mOptions->setNumberHeadings(false);
+
+            $config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'NumberedHeadings' );
+            if ($config->get('NumberedHeadingsAlsoHideNumbersInToc')) {
+                global $wgOut;
+                $wgOut->addScript('<style type="text/css">.tocnumber {display:none;}</style>');
+            }
         }
         return true;
     }
