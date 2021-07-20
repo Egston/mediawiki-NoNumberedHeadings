@@ -32,9 +32,20 @@ class NumberedHeadings
         &$text,
         StripState $strip_state
     ) {
-        if (MediaWikiServices::getInstance()->getMagicWordFactory()->get('MAG_NUMBEREDHEADINGS')->matchAndRemove($text)) {
+        $numbered_headings = MediaWikiServices::getInstance()->getMagicWordFactory()->get('MAG_NUMBEREDHEADINGS')->matchAndRemove($text);
+        $no_numbered_headings = MediaWikiServices::getInstance()->getMagicWordFactory()->get('MAG_NONUMBEREDHEADINGS')->matchAndRemove($text);
+
+        if ($numbered_headings) {
             $parser->mOptions->setNumberHeadings(true);
-        } elseif (MediaWikiServices::getInstance()->getMagicWordFactory()->get('MAG_NONUMBEREDHEADINGS')->matchAndRemove($text)) {
+            if ($no_numbered_headings) {
+                /** @var Title $title */
+                $title = $parser->getTitle();
+                wfLogWarning(sprintf(
+                    'Both MAG_NUMBEREDHEADINGS and MAG_NONUMBEREDHEADINGS found in single article: %s',
+                    $title
+                ));
+            }
+        } elseif ($no_numbered_headings) {
             $parser->mOptions->setNumberHeadings(false);
 
             $config = MediaWikiServices::getInstance()->getConfigFactory()->makeConfig( 'NumberedHeadings' );
